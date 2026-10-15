@@ -1,1 +1,212 @@
+Here’s the **complete `index.html`** for your Village Grocery Shop Management App. It includes all core UI elements (dashboard, product management, sales, expenses, etc.) with proper IDs for JavaScript integration.
 
+---
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Shop Manager</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4a6fa5">
+    <style>
+        /* Basic reset and mobile-first styles (will be expanded in style.css) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        header {
+            background-color: #4a6fa5;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #5a7d8a;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        nav button {
+            background: none;
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        nav button.active {
+            background-color: #4a6fa5;
+            border-radius: 4px;
+        }
+        .dashboard-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button.delete {
+            background-color: #e74c3c;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .search-box {
+            margin-bottom: 1rem;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+        .low-stock {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                align-items: center;
+            }
+            nav button {
+                margin: 0.25rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Village Shop Manager</h1>
+    </header>
+
+    <nav id="nav">
+        <button class="active" data-section="dashboard">Dashboard</button>
+        <button data-section="products">Products</button>
+        <button data-section="sales">Sales</button>
+        <button data-section="expenses">Expenses</button>
+        <button data-section="customers">Customers</button>
+        <button data-section="reports">Reports</button>
+        <button data-section="backup">Backup</button>
+    </nav>
+
+    <div class="container">
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section active">
+            <div class="dashboard-card">
+                <h2>Today's Summary</h2>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <h3>Total Sales</h3>
+                        <p id="total-sales">PKR 0.00</p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Total Expenses</h3>
+                        <p id="total-expenses">PKR 0.00</p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Estimated Profit</h3>
+                        <p id="estimated-profit">PKR 0.00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Low Stock Alerts</h2>
+                <div id="low-stock-items">
+                    <p>No items with low stock.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="section hidden">
+            <div class="dashboard-card">
+                <h2>Manage Products</h2>
+                <div class="search-box">
+                    <input type="text" id="product-search" placeholder="Search products...">
+                </div>
+
+                <button id="add-product-btn">Add New Product</button>
+
+                <div id="product-form" class="hidden">
+                    <h3>Add/Edit Product</h3>
+                    <form id="product-form-data">
+                        <div class="form-group">
+                            <label for="product-name">Product Name</label>
+                            <input type="text" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-unit">Unit</label>
+                            <select id="product-unit" required>
+                                <option value="">Select Unit</option>
+                                <option value="kg">Kilogram</option>
+                                <option value="l">Litre</option>
+                                <option value="pcs">Pieces</option>
+                                <option value="box">Box</option>
+                                <option value="bag">Bag</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="purchase-price">Purchase Price (PKR)</label>
+                            <input type="number" id="purchase-price" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="selling-price">Selling Price (PKR)</label>
+                            <input type="number" id="selling-price" step="0.01" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" id="quantity" min
